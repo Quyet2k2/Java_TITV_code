@@ -1,8 +1,9 @@
+import java.util.Scanner;
 
 public class App {
   public static void main(String[] args) throws Exception {
-    DanhSachSinhVien ds = new DanhSachSinhVien();
-    ds.fakeData();
-    ds.menu();
+    Scanner sc = new Scanner(System.in);
+    RutThamTrungThuong_HashSet hashSet = new RutThamTrungThuong_HashSet(sc);
+    hashSet.menu();
   }
 }
