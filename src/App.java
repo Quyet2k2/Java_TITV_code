@@ -1,27 +1,99 @@
-import java.io.File;
+import java.util.Scanner;
 
 public class App {
+
   public static void main(String[] args) throws Exception {
-    File folder1 = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\folder1");
-    File folder2 = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\folder2");
-    System.out.println("Kiểm tra folder1 có tồn tại hay không: " + folder1.exists());
-    System.out.println("Kiểm tra folder2 có tồn tại hay không: " + folder2.exists());
+    Scanner sc = new Scanner(System.in);
+    int luaChon = 0;
 
-    File d1 = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\directory_1");
-    // d1.mkdir(); // không tạo được nhiều thư mục
+    System.out.print("Nhập tên file: ");
+    ViduFile f = new ViduFile(sc.nextLine());
 
-    File d2 = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\directory_1\\d2\\d3\\d4");
-    d2.mkdirs(); // tạo được nhiều thư mục
+    Utils.clearScreen();
+    do {
+      System.out.println("MENU ---------");
+      System.out.println("1. Kiểm tra file có thể thực thi: ");
+      System.out.println("2. Kiểm tra file có thể đọc: ");
+      System.out.println("3. Kiểm tra file có thể ghi: ");
+      System.out.println("4. In đường dẫn: ");
+      System.out.println("5. In tên file: ");
+      System.out.println("6. Kiểm tra file là thư mục hoặc tệp tin: ");
+      System.out.println("7. In ra danh sách các file con: ");
+      System.out.println("8. In ra cây thư mục: ");
+      System.out.println("0. Thoát chương trình.");
+      System.out.println("===================");
 
-    // Tạo tệp tin (có phần mở rộng)
-    File f1 = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\directory_1\\vidu.txt");
-    try {
-      f1.createNewFile();
-    } catch (Exception e) {
-      // Không có quyền tạo tệp tin
-      // Ổ cứng bị đầy
-      // Đường dẫn sai
-      e.printStackTrace();
-    }
+      luaChon = Integer.parseInt(sc.nextLine());
+
+      switch (luaChon) {
+        // 1. Kiểm tra file có thể thực thi
+        case 1:
+          Utils.clearScreen();
+          System.out.println(f.kiemTraThuThi());
+          System.out.println("===================");
+          break;
+
+        // 2. Kiểm tra file có thể đọc
+        case 2:
+          Utils.clearScreen();
+          System.out.println(f.kiemTraDoc());
+          System.out.println("===================");
+          break;
+
+        // 3. Kiểm tra file có thể ghi
+        case 3:
+          Utils.clearScreen();
+          System.out.println(f.kiemTraGhi());
+          System.out.println("===================");
+          break;
+
+        // 4. In đường dẫn
+        case 4:
+          Utils.clearScreen();
+          f.inDuongDan();
+          System.out.println("===================");
+          break;
+
+        // 5. In tên file
+        case 5:
+          Utils.clearScreen();
+          f.inTen();
+          System.out.println("===================");
+          break;
+
+        // 6. Kiểm tra file là thư mục hoặc tệp tin
+        case 6:
+          Utils.clearScreen();
+          f.kiemTraLaThuMucHoacTapTin();
+          System.out.println("===================");
+          break;
+
+        // 7. In ra danh sách các file con
+        case 7:
+          Utils.clearScreen();
+          f.inDanhSachCacFileCon();
+          System.out.println("===================");
+          break;
+
+        // 8. In ra cây thư mục
+        case 8:
+          Utils.clearScreen();
+          f.inCayThuMuc();
+          System.out.println("===================");
+          break;
+
+        case 0:
+          Utils.clearScreen();
+          System.out.println("Chương trình kết thúc!");
+          System.out.println("===================");
+          return;
+
+        default:
+          Utils.clearScreen();
+          System.out.println("Lựa chọn không tồn tại!");
+          System.out.println("===================");
+          break;
+      }
+    } while (luaChon != 0);
   }
 }
