@@ -59,28 +59,32 @@ public class ViduFile {
 
   // 8. In ra cây thư mục
   public void inCayThuMuc() {
-    if (this.file.isDirectory()) {
-      System.out.println("Các tệp tin con/ thư mục con là: ");
-      inChiTietCayThuMuc(this.file, 0);
-    } else if (this.file.isFile())
-      System.out.println("Đây là tệp tin, không có dữ liệu con bên trong.");
-    else
-      System.out.println("Không xác định!");
+    if (!file.exists()) {
+      System.out.println("❌ Không tồn tại!");
+      return;
+    }
+
+    printTree(this.file, "", true);
   }
 
-  public void inChiTietCayThuMuc(File f, int bac) {
-    for (int i = 0; i < bac; i++)
-      System.out.print("   ");
-    System.out.print("|___");
+  private void printTree(File file, String prefix, boolean isLast) {
+    // In node hiện tại
+    System.out.println(prefix + (isLast ? "└── " : "├── ") + file.getName());
 
-    System.out.println(f.getName());
-    if (f.canRead() && f.isDirectory()) {
-      File[] mangCon = f.listFiles();
-      if (mangCon == null)
+    // Nếu là thư mục thì duyệt tiếp
+    if (file.isDirectory() && file.canRead()) {
+      File[] children = file.listFiles();
+      if (children == null)
         return;
 
-      for (File fx : mangCon)
-        inChiTietCayThuMuc(fx, bac + 1);
+      for (int i = 0; i < children.length; i++) {
+        boolean last = (i == children.length - 1);
+
+        printTree(
+            children[i],
+            prefix + (isLast ? "    " : "│   "),
+            last);
+      }
     }
   }
 }
