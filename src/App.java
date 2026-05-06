@@ -1,74 +1,38 @@
-import java.io.PrintWriter;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.List;
 
 public class App {
 
   public static void main(String[] args) throws Exception {
+    // // ****** Cách 1
+    // File f = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\file.txt");
+    // try {
+    // BufferedReader br = Files.newBufferedReader(f.toPath(),
+    // StandardCharsets.UTF_8);
+    // String line = null;
+    // while (true) {
+    // line = br.readLine();
+    // if (line == null) {
+    // break;
+    // } else {
+    // System.out.println(line);
+    // }
+    // }
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
+
+    // // *********** Cách 2
+    File f2 = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\file.txt");
     try {
-      PrintWriter pw = new PrintWriter("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\file.txt", "UTF-8");
-
-      pw.println("Xin chào, mình là Quyết!");
-
-      pw.print("Dữ liệu: ");
-      pw.print(3.14);
-      pw.print(' ');
-      pw.print("là số PI!");
-
-      pw.println();
-      Student student = new Student(100, "Phạm Văn Quyết");
-      pw.println(student);
-
-      pw.flush();
-      pw.close();
+      List<String> allText = Files.readAllLines(f2.toPath(), StandardCharsets.UTF_8);
+      for (String line : allText) {
+        System.out.println(line);
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
-}
-
-class Student {
-  private int id;
-  private String name;
-
-  public Student() {
-  }
-
-  public Student(int id, String name) {
-    this.id = id;
-    this.name = name;
-  }
-
-  public int getId() {
-    return this.id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public Student id(int id) {
-    setId(id);
-    return this;
-  }
-
-  public Student name(String name) {
-    setName(name);
-    return this;
-  }
-
-  @Override
-  public String toString() {
-    return "{" +
-        " id='" + getId() + "'" +
-        ", name='" + getName() + "'" +
-        "}";
-  }
-
 }
