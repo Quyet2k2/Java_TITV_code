@@ -1,99 +1,74 @@
-import java.util.Scanner;
+import java.io.File;
+import java.nio.file.Files;
 
 public class App {
 
-  public static void main(String[] args) throws Exception {
-    Scanner sc = new Scanner(System.in);
-    int luaChon = 0;
+  public static void xoaFile(File fx) {
+    if (fx.isFile()) {
+      // Xoá nếu là tập tin
+      fx.delete();
+      System.out.println("Đã xoá: " + fx.getAbsolutePath());
+    }
 
-    System.out.print("Nhập tên file: ");
-    ViduFile f = new ViduFile(sc.nextLine());
+    else if (fx.isDirectory()) {
+      // Lấy các file con
+      File[] mangCon = fx.listFiles();
+      for (File f : mangCon)
+        // Xoá các file con
+        xoaFile(f);
 
-    Utils.clearScreen();
-    do {
-      System.out.println("MENU ---------");
-      System.out.println("1. Kiểm tra file có thể thực thi: ");
-      System.out.println("2. Kiểm tra file có thể đọc: ");
-      System.out.println("3. Kiểm tra file có thể ghi: ");
-      System.out.println("4. In đường dẫn: ");
-      System.out.println("5. In tên file: ");
-      System.out.println("6. Kiểm tra file là thư mục hoặc tệp tin: ");
-      System.out.println("7. In ra danh sách các file con: ");
-      System.out.println("8. In ra cây thư mục: ");
-      System.out.println("0. Thoát chương trình.");
-      System.out.println("===================");
+      // Xoá bản thân thư mục sau khi đã xoá các file con
+      fx.delete();
+      System.out.println("Đã xoá: " + fx.getAbsolutePath());
+    }
+  }
 
-      luaChon = Integer.parseInt(sc.nextLine());
-
-      switch (luaChon) {
-        // 1. Kiểm tra file có thể thực thi
-        case 1:
-          Utils.clearScreen();
-          System.out.println(f.kiemTraThuThi());
-          System.out.println("===================");
-          break;
-
-        // 2. Kiểm tra file có thể đọc
-        case 2:
-          Utils.clearScreen();
-          System.out.println(f.kiemTraDoc());
-          System.out.println("===================");
-          break;
-
-        // 3. Kiểm tra file có thể ghi
-        case 3:
-          Utils.clearScreen();
-          System.out.println(f.kiemTraGhi());
-          System.out.println("===================");
-          break;
-
-        // 4. In đường dẫn
-        case 4:
-          Utils.clearScreen();
-          f.inDuongDan();
-          System.out.println("===================");
-          break;
-
-        // 5. In tên file
-        case 5:
-          Utils.clearScreen();
-          f.inTen();
-          System.out.println("===================");
-          break;
-
-        // 6. Kiểm tra file là thư mục hoặc tệp tin
-        case 6:
-          Utils.clearScreen();
-          f.kiemTraLaThuMucHoacTapTin();
-          System.out.println("===================");
-          break;
-
-        // 7. In ra danh sách các file con
-        case 7:
-          Utils.clearScreen();
-          f.inDanhSachCacFileCon();
-          System.out.println("===================");
-          break;
-
-        // 8. In ra cây thư mục
-        case 8:
-          Utils.clearScreen();
-          f.inCayThuMuc();
-          System.out.println("===================");
-          break;
-
-        case 0:
-          Utils.clearScreen();
-          System.out.println("Chương trình kết thúc!");
-          System.out.println("===================");
-          return;
-
-        default:
-          Utils.clearScreen();
-          System.out.println("Lựa chọn không tồn tại!");
-          System.out.println("===================");
-          break;
+  public static void xoaFile2(File fx) {
+    if (fx.isFile()) {
+      // Xoá nếu là tập tin
+      try {
+        Files.deleteIfExists(fx.toPath());
+        System.out.println("Đã xoá: " + fx.getAbsolutePath());
+      } catch (Exception e) {
+        e.printStackTrace();
       }
-    } while (luaChon != 0);
+    }
+
+    else if (fx.isDirectory()) {
+      // Lấy các file con
+      File[] mangCon = fx.listFiles();
+      for (File f : mangCon)
+        // Xoá các file con
+        xoaFile(f);
+
+      // Xoá bản thân thư mục sau khi đã xoá các file con
+      try {
+        Files.deleteIfExists(fx.toPath());
+        System.out.println("Đã xoá: " + fx.getAbsolutePath());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public static void main(String[] args) throws Exception {
+    // File f1 = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\f1");
+    // f1.mkdir();
+    // File f2 = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\__f2.txt");
+    // f2.createNewFile();
+    // f1.deleteOnExit(); // Xoá được, vì là thư mục rỗng
+    // f2.deleteOnExit(); // Xoá được, vì là tệp tin
+
+    File f0_f2 = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\f0\\f1\\f2");
+    f0_f2.mkdirs();
+
+    File f0 = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\f0");
+    f0.deleteOnExit(); // Không xoá được, vì có chứa tệp tin và thư mục
+
+    // ***** Sử dụng class File xoá tập tin hoặc thư mục
+    App.xoaFile(f0);
+
+    // ***** Sử dụng class Files xoá tập tin và thư mục
+    // App.xoaFile2(f0);
   }
 }
