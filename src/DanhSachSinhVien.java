@@ -4,6 +4,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DanhSachSinhVien {
@@ -41,6 +42,7 @@ public class DanhSachSinhVien {
       System.out.println("(8): Tìm kiếm một sinh viên dựa trên Tên.");
       System.out.println("(9): Xuất ra danh sách sinh viên có điểm từ cao đến thấp.");
       System.out.println("(10): Ghi dữ liệu xuống file.");
+      System.out.println("(11): Đọc dữ liệu từ file.");
       System.out.println("(0): Thoát ứng dụng.");
       System.out.println("==================");
       System.out.print("Nhập lựa chọn của bạn: ");
@@ -49,96 +51,132 @@ public class DanhSachSinhVien {
       try {
         luaChon = Integer.parseInt(sc.nextLine().trim());
       } catch (Exception e) {
-        System.out.println("Nhập sai!");
+        clearScreen();
+        System.out.println("Nhập không đúng mong đợi!");
+        System.out.println("==================");
         continue;
       }
 
+      clearScreen();
       switch (luaChon) {
         // (1): Thêm sinh viên vào danh sách.
         case 1:
-          clearScreen();
           this.themSinhVien();
-          System.out.println("==================");
           break;
 
         // (2): In danh sách sinh viên ra màn hình."
         case 2:
-          clearScreen();
           this.hienThiDanhSach(this.sinhVienList);
-          System.out.println("==================");
           break;
 
         // (3): Kiểm tra danh sách có rỗng hay không.
         case 3:
-          clearScreen();
           System.out.println(this.kiemTraRong(this.sinhVienList) ? "Danh sách rỗng!" : "Danh sách có phần tử!");
-          System.out.println("==================");
           break;
 
         // (4): Lấy ra số lượng sinh viên trong danh sách.
         case 4:
-          clearScreen();
           System.out
               .println("Hiện tại trong danh sách có số lượng phần tử là: " + this.laySoLuongSV(this.sinhVienList));
-          System.out.println("==================");
           break;
 
         // (5): Làm rỗng danh sách sinh viên.
         case 5:
-          clearScreen();
           this.lamRongDS(this.sinhVienList);
           System.out.println("Đã làm rỗng danh sách.");
-          System.out.println("==================");
           break;
 
         // (6): Xóa một sinh viên ra khỏi danh sách dựa trên mã sinh viên.
         case 6:
-          clearScreen();
           System.out.print("Nhập mã sinh viên cần xoá: ");
           this.xoaTheoMaSV(sc.nextLine());
-          System.out.println("==================");
           break;
 
         // (7): Kiểm tra sinh viên có tồn tại trong danh sách hay không, dựa trên mã
         // sinh viên.
         case 7:
-          clearScreen();
           System.out.print("Nhập mã sinh viên cần kiểm tra tồn tại: ");
           System.out.println("Sinh viên " + (this.kiemTraTonTai(sc.nextLine()) ? "có tồn tại" : "không tồn tại"));
-          System.out.println("==================");
           break;
 
         // (8): Tìm kiếm một sinh viên dựa trên Tên.
         case 8:
-          clearScreen();
           System.out.print("Nhập tên sinh viên cần tìm kiếm: ");
           this.timKiemSV(sc.nextLine());
-          System.out.println("==================");
           break;
 
         // (9): Xuất ra danh sách sinh viên có điểm từ cao đến thấp.
         case 9:
-          clearScreen();
           this.hienThiDanhSachTheoDiemXuongThap(this.sinhVienList);
-          System.out.println("==================");
           break;
 
         // (10): Ghi dữ liệu xuống file
         case 10:
-          clearScreen();
           this.ghiDuLieuXuongFile();
-          System.out.println("==================");
+          break;
+
+        // (11): Đọ dữ liệu từ file
+        case 11:
+          this.docDuLieuTuFile();
           break;
 
         case 0:
-          clearScreen();
           System.out.println("Chương trình kết thúc!");
-          System.out.println("==================");
           return;
 
         default:
+          System.out.println("Lựa chọn không tồn tại!");
           break;
       }
+      System.out.println("==================");
+    }
+  }
+
+  // 11. Đọc dữ liệu từ file
+  private void docDuLieuTuFile() {
+    String path = "E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\data";
+    List<File> files = Utils.getAllDataFiles(path);
+
+    if (files.isEmpty()) {
+      System.out.println("Không có file .data nào!");
+      return;
+    }
+
+    while (true) {
+      System.out.println("\n===== CHỌN FILE ĐỂ ĐỌC =====");
+
+      for (int i = 0; i < files.size(); i++) {
+        System.out.println((i + 1) + ". " + files.get(i).getName());
+      }
+
+      System.out.println("0. Thoát");
+      System.out.print("Chọn: ");
+      int choice;
+
+      try {
+        choice = Integer.parseInt(sc.nextLine());
+      } catch (Exception e) {
+        clearScreen();
+        System.out.println("Nhập không đúng mong đợi!");
+        System.out.println("==================");
+        continue;
+      }
+
+      Utils.clearScreen();
+      switch (choice) {
+        case 0:
+          System.out.println("Thoát...");
+          return;
+
+        default:
+          if (choice >= 1 && choice <= files.size()) {
+            File selected = files.get(choice - 1);
+            Utils.readFile(selected);
+          } else {
+            System.out.println("Lựa chọn không hợp lệ!");
+          }
+      }
+      System.out.println("==================");
     }
   }
 
@@ -146,8 +184,9 @@ public class DanhSachSinhVien {
   private void ghiDuLieuXuongFile() {
     System.out.print("Nhập tên file dữ liệu: ");
     String tenFile = sc.nextLine();
-    File file = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\" + tenFile + ".data");
+    File file = new File("E:\\JAVA_WORKSPACE\\Java_TITV_code\\src\\data\\" + tenFile + ".data");
     try {
+      Utils.ensureParentDir(file);
       OutputStream os = new FileOutputStream(file);
       ObjectOutputStream oos = new ObjectOutputStream(os);
 
