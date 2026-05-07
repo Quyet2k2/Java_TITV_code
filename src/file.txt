@@ -1,3 +1,0 @@
-Xin chào, mình là Quyết!
-Dữ liệu: 3.14 là số PI!
-{ id='100', name='Phạm Văn Quyết'}
