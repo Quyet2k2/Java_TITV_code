@@ -1,13 +1,13 @@
 import javax.swing.UIManager;
 
-import controller.MyColorListener;
-import view.MyColorView;
+import controller.MiniCalculatorListener;
+import view.MiniCalculatorView;
 
 public class App {
   public static void main(String[] args) throws Exception {
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-      new MyColorListener(new MyColorView());
+      new MiniCalculatorListener(new MiniCalculatorView());
     } catch (Exception e) {
       e.printStackTrace();
     }
