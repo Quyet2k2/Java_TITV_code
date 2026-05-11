@@ -1,13 +1,13 @@
 package model;
 
-public class CounterModel {
+public class LastButtonModel {
   private int value;
 
-  public CounterModel() {
+  public LastButtonModel() {
     this.value = 0;
   }
 
-  public CounterModel(int value) {
+  public LastButtonModel(int value) {
     this.value = value;
   }
 
@@ -19,7 +19,7 @@ public class CounterModel {
     this.value = value;
   }
 
-  public CounterModel value(int value) {
+  public LastButtonModel value(int value) {
     setValue(value);
     return this;
   }
