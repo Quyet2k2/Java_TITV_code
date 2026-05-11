@@ -1,13 +1,13 @@
 import javax.swing.UIManager;
 
-import controller.MiniCalculatorListener;
-import view.MiniCalculatorView;
+import controller.TimKiemListener;
+import view.TimKiemView;
 
 public class App {
   public static void main(String[] args) throws Exception {
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-      new MiniCalculatorListener(new MiniCalculatorView());
+      new TimKiemListener(new TimKiemView());
     } catch (Exception e) {
       e.printStackTrace();
     }
